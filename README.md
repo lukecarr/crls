@@ -1,6 +1,6 @@
 # crls
 
-> 🔒 Column and row-level security for TypeScript
+> 🔒 Dead easy column and row-level security
 
 [![npm](https://img.shields.io/npm/v/crls?color=blue)](https://npmjs.com/package/crls)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/crls?color=success)](https://bundlephobia.com/package/crls)
@@ -33,7 +33,7 @@ import crls from "crls";
 ```ts
 import crls from "crls";
 
-type BlogPost = {
+type Post = {
   id: number;
   title: string;
   author: string;
@@ -43,13 +43,13 @@ type Context = {
   username: string;
 };
 
-const data = [
+const data: Array<Post> = [
   { id: 1, title: "A blog post!", author: "luke" },
   { id: 2, title: "Another blog post!", author: "luke" },
   { id: 3, title: "My blog post!!!", author: "notluke" },
 ];
 
-const withRLS = crls<BlogPost, Context>(data, security: {
+const withRLS = crls<Post, Context>(data, security: {
   row(row, context) {
     return row.author === context.username;
   },
@@ -74,15 +74,15 @@ Just supply a function that returns a `Promise<>` of your data to receive an asy
 ```ts
 import crls from "crls";
 
-type BlogPost = ...;
+type Post = ...;
 
 type Context = ...;
 
-async function getPosts(): Promise<BlogPost> {
+async function getPosts(): Promise<Post> {
   // Some query logic here (e.g. access your database)
 }
 
-const withRLS = crls<BlogPost, Context>(getPosts, security: { ... });
+const withRLS = crls<Post, Context>(getPosts, security: { ... });
 // => You now need to call withRLS using `await`!
 ```
 
