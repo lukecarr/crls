@@ -87,7 +87,7 @@ const withRLS = crls<BlogPost, Context>(getPosts, security: { ... });
 // => You now need to call withRLS using `await`!
 ```
 
-This asynchronous is useful for applications where you want to define your data retrieval and crls logic once, then make queries many times (i.e. per request to an API endpoint).
+This is designed to be useful for applications where you want to define your data retrieval and crls logic once, then make queries many times (i.e. per request to an API endpoint).
 
 ## 📃 License
 
