@@ -48,4 +48,20 @@ describe("crls", () => {
     let filtered = withCLS(undefined);
     expect(filtered).toStrictEqual(dataset);
   });
+
+  it("should accept a producer function for the dataset", () => {
+    let state = 0;
+    const withRLS = crls<{ state: number }, undefined>(() => {
+      state++;
+      return [{ state }];
+    });
+
+    const first = withRLS(undefined);
+    expect(first).toHaveLength(1);
+    expect(first[0].state).toBe(1);
+
+    const second = withRLS(undefined);
+    expect(second).toHaveLength(1);
+    expect(second[0].state).toBe(2);
+  })
 });
