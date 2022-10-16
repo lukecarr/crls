@@ -40,17 +40,17 @@ type BlogPost = {
   author: string;
 };
 
-type User = {
+type Context = {
   username: string;
 };
 
-const data: Array<BlogPost> = [
+const data = [
   { id: 1, title: "A blog post!", author: "luke" },
   { id: 2, title: "Another blog post!", author: "luke" },
   { id: 3, title: "My blog post!!!", author: "notluke" },
 ];
 
-const withRLS = crls<BlogPost, User>(data, security: {
+const withRLS = crls<BlogPost, Context>(data, security: {
   row(row, context) {
     return row.author === context.username;
   },
@@ -65,6 +65,29 @@ const notLukePosts = withRLS({ username: "notluke" });
 const bobPosts = withRLS({ username: "bob" });
 // => Empty array
 ```
+
+## ⏱ Asynchronous
+
+As an alternative to the quick start demo, crls can be used asynchronously.
+
+Just supply a function that returns a `Promise<>` of your data to receive an asynchronous closure:
+
+```ts
+import crls from "crls";
+
+type BlogPost = ...;
+
+type Context = ...;
+
+async function getPosts(): Promise<BlogPost> {
+  // Some query logic here (e.g. access your database)
+}
+
+const withRLS = crls<BlogPost, Context>(getPosts, security: { ... });
+// => You now need to call withRLS using `await`!
+```
+
+This asynchronous is useful for applications where you want to define your data retrieval and crls logic once, then make queries many times (i.e. per request to an API endpoint).
 
 ## 📃 License
 
