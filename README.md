@@ -10,21 +10,13 @@
 ![vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/crls)
 [![dependencies](https://img.shields.io/badge/dependencies-0-success)](https://www.npmjs.com/package/crls?activeTab=dependencies)
 
-- 💪 **TypeScript.** Fully typed and self-documenting!
-
 ## 🚀 Quick Start
 
 ### Install
 
 ```bash
-# npm
-npm i crls
-
-# or yarn
-yarn add crls
-
-# or pnpm
-pnpm add crls
+# Use your favorite package manager!
+pnpm add -E crls
 ```
 
 ### Import
@@ -34,7 +26,7 @@ pnpm add crls
 import crls from "crls";
 
 // or CommonJS
-const crls = require("crls");
+// const crls = require("crls");
 ```
 
 ### Start filtering data
