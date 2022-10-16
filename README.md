@@ -51,12 +51,20 @@ const data: Array<Post> = [
 
 const withRLS = crls<Post, Context>(data, security: {
   row(row, context) {
+    // Users can only see posts that they authored
     return row.author === context.username;
+  },
+  column(row, context) {
+    // If the user is "luke", they cannot see post IDs
+    if (context.username === "luke") return new Set(["title", "author"]);
+    
+    // Otherwise, include all columns
+    return true;
   },
 });
 
 const lukePosts = withRLS({ username: "luke" });
-// => Array containg blog posts #1 and #2 (but not #3)
+// => Array containg blog posts #1 and #2 (but not #3), but missing the `id` property
 
 const notLukePosts = withRLS({ username: "notluke" });
 // => Array containing blog post #3 (but not #1 or #2)
