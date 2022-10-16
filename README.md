@@ -6,7 +6,6 @@
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/crls?color=success)](https://bundlephobia.com/package/crls)
 [![npm install size](https://packagephobia.com/badge?p=crls)](https://packagephobia.com/result?p=crls)
 [![maintainability](https://img.shields.io/codeclimate/maintainability/lukecarr/crls)](https://codeclimate.com/github/lukecarr/crls)
-[![code coverage](https://img.shields.io/codeclimate/coverage/lukecarr/crls)](https://codeclimate.com/github/lukecarr/crls)
 ![vulnerabilities](https://img.shields.io/snyk/vulnerabilities/npm/crls)
 [![dependencies](https://img.shields.io/badge/dependencies-0-success)](https://www.npmjs.com/package/crls?activeTab=dependencies)
 
