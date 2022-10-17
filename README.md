@@ -64,13 +64,13 @@ const withRLS = crls<Post, Context>(data, security: {
 });
 
 const lukePosts = withRLS({ username: "luke" });
-// => Array containg blog posts #1 and #2 (but not #3), but missing the `id` property
+// => [{ title: "A blog post!", author: "luke" }, { title: "Another blog post!", author: "luke" }]
 
 const notLukePosts = withRLS({ username: "notluke" });
-// => Array containing blog post #3 (but not #1 or #2)
+// => [{ id: 3, title: "My blog post!!!", author: "notluke" }]
 
 const bobPosts = withRLS({ username: "bob" });
-// => Empty array
+// => []
 ```
 
 ## ⏱ Asynchronous
@@ -91,7 +91,7 @@ async function getPosts(): Promise<Post> {
 }
 
 const withRLS = crls<Post, Context>(getPosts, security: { ... });
-// => You now need to call withRLS using `await`!
+// => You now need to call withRLS using `await`: `getPosts will be evaluated every time!
 ```
 
 This is designed to be useful for applications where you want to define your data retrieval and crls logic once, then make queries many times (i.e. per request to an API endpoint).
