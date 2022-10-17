@@ -49,18 +49,15 @@ const data: Array<Post> = [
   { id: 3, title: "My blog post!!!", author: "notluke" },
 ];
 
-const withRLS = crls<Post, Context>(data, security: {
-  row(row, context) {
-    // Users can only see posts that they authored
-    return row.author === context.username;
-  },
-  column(row, context) {
+const withRLS = crls<Post, Context>(data, function(row, context) {
+    // Users cannot see posts that they haven't authored
+    if (row.author !== context.username) return false;
+
     // If the user is "luke", they cannot see post IDs
     if (context.username === "luke") return new Set(["title", "author"]);
-    
-    // Otherwise, include all columns
+
+    // If the user is the author, and they aren't "luke"
     return true;
-  },
 });
 
 const lukePosts = withRLS({ username: "luke" });
@@ -90,7 +87,7 @@ async function getPosts(): Promise<Post> {
   // Some query logic here (e.g. access your database)
 }
 
-const withRLS = crls<Post, Context>(getPosts, security: { ... });
+const withRLS = crls<Post, Context>(getPosts, ...);
 // => You now need to call withRLS using `await`: `getPosts will be evaluated every time!
 ```
 

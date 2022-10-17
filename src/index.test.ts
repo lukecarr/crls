@@ -10,10 +10,8 @@ const dataset = [
 
 describe("crls", () => {
   it("should apply row-level security", () => {
-    const withRLS = crls<Unarray<typeof dataset>, { tenant: number }>(dataset, {
-      row(row, context) {
-        return row.tenant === context.tenant;
-      },
+    const withRLS = crls<Unarray<typeof dataset>, { tenant: number }>(dataset, function(row, context) {
+      return row.tenant === context.tenant;
     });
   
     let filtered = withRLS({ tenant: 123 });
@@ -30,10 +28,8 @@ describe("crls", () => {
   });
   
   it("should apply column-level security", () => {
-    const withCLS = crls<Unarray<typeof dataset>, undefined>(dataset, {
-      column(row) {
-        return new Set(row.tenant === 456 ? ["id", "title", "content", "secret"] : ["id", "title", "content"]);
-      },
+    const withCLS = crls<Unarray<typeof dataset>, undefined>(dataset, function(row) {
+      return new Set(row.tenant === 456 ? ["id", "title", "content", "secret"] : ["id", "title", "content"]);
     });
   
     let filtered = withCLS(undefined);
