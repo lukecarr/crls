@@ -1,7 +1,7 @@
 {
   "name": "crls",
   "version": "2.0.0",
-  "description": "Column and row-level security for TypeScript",
+  "description": "Dead easy column and row-level security",
   "keywords": [
     "permissions",
     "access",
@@ -26,7 +26,9 @@
   "scripts": {
     "watch": "parcel watch",
     "build": "parcel build",
-    "test": "vitest --coverage"
+    "test": "vitest --coverage",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs"
   },
   "devDependencies": {
     "@parcel/packager-ts": "latest",
