@@ -72,12 +72,10 @@ active:
 const withCRLS = crls<BlogPost, User>(data, (row, context) => {
   // Users cannot see posts that they didn't author
   if (row.author !== context.username) return false
-
   // If the user is 'luke', they cannot see IDs
-  if (context.username === 'luke') return new Set(['title', 'author'])
-
+  else if (context.username === 'luke') return new Set(['title', 'author'])
   // Otherwise, they can see the post
-  return true
+  else return true
 })
 ```
 
