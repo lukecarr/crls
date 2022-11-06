@@ -1,4 +1,4 @@
-# crls
+# CRLS
 
 > 🔒 Dead easy column and row-level security
 
@@ -22,80 +22,54 @@ pnpm add -E crls
 
 ```ts
 // ESM / TypeScript
-import crls from "crls";
+import crls from 'crls'
 
 // or CommonJS
-// const crls = require("crls");
+// const crls = require('crls')
 ```
 
 ### Start filtering data
 
 ```ts
-import crls from "crls";
+import crls from 'crls'
 
 type Post = {
-  id: number;
-  title: string;
-  author: string;
-};
+  id: number
+  title: string
+  author: string
+}
 
 type Context = {
-  username: string;
-};
+  username: string
+}
 
 const data: Array<Post> = [
-  { id: 1, title: "A blog post!", author: "luke" },
-  { id: 2, title: "Another blog post!", author: "luke" },
-  { id: 3, title: "My blog post!!!", author: "notluke" },
-];
+  { id: 1, title: 'A blog post!', author: 'luke' },
+  { id: 2, title: 'Another blog post!', author: 'luke' },
+  { id: 3, title: 'My blog post!!!', author: 'notluke' },
+]
 
-const withRLS = crls<Post, Context>(data, security: {
-  row(row, context) {
-    // Users can only see posts that they authored
-    return row.author === context.username;
-  },
-  column(row, context) {
-    // If the user is "luke", they cannot see post IDs
-    if (context.username === "luke") return new Set(["title", "author"]);
-    
-    // Otherwise, include all columns
-    return true;
-  },
-});
+const withCRLS = crls<Post, Context>(data, (row, context) => {
+  // Users cannot see posts that they haven't authored
+  if (row.author !== context.username) return false
+  // If the user is "luke", they cannot see post IDs
+  else if (context.username === 'luke') return new Set(['title', 'author'])
+  // If the user is the author, and they aren't "luke"
+  else return true
+})
 
-const lukePosts = withRLS({ username: "luke" });
+const lukePosts = withRLS({ username: 'luke' })
 // => [{ title: "A blog post!", author: "luke" }, { title: "Another blog post!", author: "luke" }]
 
-const notLukePosts = withRLS({ username: "notluke" });
+const notLukePosts = withRLS({ username: 'notluke' })
 // => [{ id: 3, title: "My blog post!!!", author: "notluke" }]
 
-const bobPosts = withRLS({ username: "bob" });
+const bobPosts = withRLS({ username: 'bob' })
 // => []
 ```
 
-## ⏱ Asynchronous
-
-As an alternative to the quick start demo, crls can be used asynchronously.
-
-Just supply a function that returns a `Promise<>` of your data to receive an asynchronous closure:
-
-```ts
-import crls from "crls";
-
-type Post = ...;
-
-type Context = ...;
-
-async function getPosts(): Promise<Post> {
-  // Some query logic here (e.g. access your database)
-}
-
-const withRLS = crls<Post, Context>(getPosts, security: { ... });
-// => You now need to call withRLS using `await`: `getPosts will be evaluated every time!
-```
-
-This is designed to be useful for applications where you want to define your data retrieval and crls logic once, then make queries many times (i.e. per request to an API endpoint).
+**View full documentation at [crls.js.org](https://crls.js.org)!**
 
 ## 📃 License
 
-crls is licensed under the [`MIT License`](LICENSE).
+CRLS is licensed under the [`MIT License`](LICENSE).
