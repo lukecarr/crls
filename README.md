@@ -22,7 +22,7 @@ pnpm add -E crls
 
 ```ts
 // ESM / TypeScript
-import crls from "crls";
+import crls from 'crls'
 
 // or CommonJS
 // const crls = require("crls");
@@ -31,42 +31,42 @@ import crls from "crls";
 ### Start filtering data
 
 ```ts
-import crls from "crls";
+import crls from 'crls'
 
 type Post = {
-  id: number;
-  title: string;
-  author: string;
-};
+  id: number
+  title: string
+  author: string
+}
 
 type Context = {
-  username: string;
-};
+  username: string
+}
 
 const data: Array<Post> = [
-  { id: 1, title: "A blog post!", author: "luke" },
-  { id: 2, title: "Another blog post!", author: "luke" },
-  { id: 3, title: "My blog post!!!", author: "notluke" },
-];
+  { id: 1, title: 'A blog post!', author: 'luke' },
+  { id: 2, title: 'Another blog post!', author: 'luke' },
+  { id: 3, title: 'My blog post!!!', author: 'notluke' },
+]
 
 const withRLS = crls<Post, Context>(data, function(row, context) {
-    // Users cannot see posts that they haven't authored
-    if (row.author !== context.username) return false;
+  // Users cannot see posts that they haven't authored
+  if (row.author !== context.username) return false
 
-    // If the user is "luke", they cannot see post IDs
-    if (context.username === "luke") return new Set(["title", "author"]);
+  // If the user is "luke", they cannot see post IDs
+  if (context.username === 'luke') return new Set(['title', 'author'])
 
-    // If the user is the author, and they aren't "luke"
-    return true;
-});
+  // If the user is the author, and they aren't "luke"
+  return true
+})
 
-const lukePosts = withRLS({ username: "luke" });
+const lukePosts = withRLS({ username: 'luke' })
 // => [{ title: "A blog post!", author: "luke" }, { title: "Another blog post!", author: "luke" }]
 
-const notLukePosts = withRLS({ username: "notluke" });
+const notLukePosts = withRLS({ username: 'notluke' })
 // => [{ id: 3, title: "My blog post!!!", author: "notluke" }]
 
-const bobPosts = withRLS({ username: "bob" });
+const bobPosts = withRLS({ username: 'bob' })
 // => []
 ```
 
