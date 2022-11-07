@@ -1,5 +1,5 @@
 ---
-titleTemplate: Dead easy column and row-level security
+titleTemplate: Dead easy column and row-level security!
 layout: home
 
 hero:
